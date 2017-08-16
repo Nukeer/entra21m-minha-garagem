@@ -5,6 +5,13 @@
  */
 package view;
 
+import dao.CarroDAO;
+import database.Utilitarios;
+import java.sql.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import model.Carro;
+
 /**
  *
  * @author Alunos
@@ -40,7 +47,6 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         jTextFieldFabricante = new javax.swing.JTextField();
         jTextFieldCodigo = new javax.swing.JTextField();
         jLabelPlaca = new javax.swing.JLabel();
-        jFormattedTextFieldPlaca = new javax.swing.JFormattedTextField();
         jLabelChassi = new javax.swing.JLabel();
         jLabelPotencia = new javax.swing.JLabel();
         jTextFieldPotencia = new javax.swing.JTextField();
@@ -63,11 +69,14 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         jComboBoxTipoPneu = new javax.swing.JComboBox();
         jLabelDescricao = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaDescricao = new javax.swing.JTextArea();
         jLabelQuantidadePortas = new javax.swing.JLabel();
         jComboBoxQuantidadePortas = new javax.swing.JComboBox();
         jLabelQuantidadeBatidas = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        jComboBoxQuantidadeBatidas = new javax.swing.JComboBox();
+        jSpinnerAnoFabricacao = new javax.swing.JSpinner();
+        jSpinnerAnoLancamento = new javax.swing.JSpinner();
+        jTextFieldPlaca = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Carros");
@@ -85,7 +94,20 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
 
         jLabelCor.setText("Cor");
 
+        jTextFieldCor.addHierarchyBoundsListener(new java.awt.event.HierarchyBoundsListener() {
+            public void ancestorMoved(java.awt.event.HierarchyEvent evt) {
+                jTextFieldCorAncestorMoved(evt);
+            }
+            public void ancestorResized(java.awt.event.HierarchyEvent evt) {
+            }
+        });
+
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jButtonCancelar.setText("Cancelar");
         jButtonCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,12 +126,6 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         jTextFieldCodigo.setEditable(false);
 
         jLabelPlaca.setText("Placa");
-
-        try {
-            jFormattedTextFieldPlaca.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###-####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         jLabelChassi.setText("Chassi");
 
@@ -137,11 +153,8 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
 
         jLabelDataCompra.setText("Data da Compra");
 
-        try {
-            jFormattedTextFieldDataCompra.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        jFormattedTextFieldDataCompra.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jFormattedTextFieldDataCompra.setToolTipText("21/08/2018");
 
         jLabelEstaFuncional.setText("Esta Funcionando?");
 
@@ -177,9 +190,9 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
 
         jLabelDescricao.setText("Descrição");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextAreaDescricao.setColumns(20);
+        jTextAreaDescricao.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaDescricao);
 
         jLabelQuantidadePortas.setText("Quantidade de Portas");
 
@@ -188,8 +201,16 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
 
         jLabelQuantidadeBatidas.setText("Quantidade de Batidas");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-        jComboBox1.setSelectedIndex(-1);
+        jComboBoxQuantidadeBatidas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
+        jComboBoxQuantidadeBatidas.setSelectedIndex(-1);
+
+        jSpinnerAnoFabricacao.setModel(new javax.swing.SpinnerNumberModel(2017, 1900, 2020, 1));
+        jSpinnerAnoFabricacao.setToolTipText("2018");
+
+        jSpinnerAnoLancamento.setModel(new javax.swing.SpinnerNumberModel(2017, 1900, 2020, 1));
+        jSpinnerAnoLancamento.setToolTipText("2018");
+
+        jTextFieldPlaca.setToolTipText("ABC-1234");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -231,7 +252,7 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabelPlaca)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jFormattedTextFieldPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextFieldPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabelChassi)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -246,46 +267,56 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(jTextFieldRenavam, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelPermitidaCirculacao)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabelQuilometragem)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextFieldQuilometragem, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabelAnoFabricacao, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(jLabelAnoFabricacao)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jSpinnerAnoFabricacao))
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                             .addGap(6, 6, 6)
                                             .addComponent(jLabelQuantidadePortas)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jComboBoxQuantidadePortas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addComponent(jComboBoxQuantidadePortas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabelQuilometragem)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jTextFieldQuilometragem, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                    .addComponent(jRadioButtonPermitidaCirculacaoSim)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                    .addComponent(jRadioButtonPermitidaCirculacaoNao)
+                                                    .addGap(12, 12, 12))
+                                                .addComponent(jLabelPermitidaCirculacao)))))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(5, 5, 5)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabelAnoLancamento)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabelAnoLancamento)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jSpinnerAnoLancamento))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabelQuantidadeBatidas)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                .addComponent(jComboBoxQuantidadeBatidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabelDataCompra)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jFormattedTextFieldDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabelEstaFuncional)
-                                        .addGap(61, 61, 61))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jRadioButtonEstaFuncionalSim)
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jRadioButtonEstaFuncionalNao)
-                                        .addGap(50, 50, 50)))
-                                .addComponent(jRadioButtonPermitidaCirculacaoSim)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButtonPermitidaCirculacaoNao))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabelEstaFuncional)
+                                    .addGap(61, 61, 61))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jRadioButtonEstaFuncionalSim)
+                                    .addGap(10, 10, 10)
+                                    .addComponent(jRadioButtonEstaFuncionalNao)
+                                    .addGap(50, 50, 50)))
                             .addComponent(jLabelDescricao))
                         .addGap(0, 21, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -313,27 +344,29 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelPlaca)
-                    .addComponent(jFormattedTextFieldPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelChassi)
                     .addComponent(jTextFieldChassi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelQuilometragem)
                     .addComponent(jTextFieldQuilometragem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelDataCompra)
-                    .addComponent(jFormattedTextFieldDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
+                    .addComponent(jFormattedTextFieldDataCompra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelRenavam)
                     .addComponent(jTextFieldRenavam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelAnoFabricacao)
-                    .addComponent(jLabelAnoLancamento))
-                .addGap(3, 3, 3)
+                    .addComponent(jLabelAnoLancamento)
+                    .addComponent(jSpinnerAnoFabricacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinnerAnoLancamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTipoPneu)
                     .addComponent(jComboBoxTipoPneu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelQuantidadePortas)
                     .addComponent(jComboBoxQuantidadePortas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelQuantidadeBatidas)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxQuantidadeBatidas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelEstaFuncional)
@@ -356,7 +389,6 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         );
 
         jTextFieldCodigo.getAccessibleContext().setAccessibleName("");
-        jFormattedTextFieldPlaca.getAccessibleContext().setAccessibleParent(null);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -366,7 +398,7 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
     }//GEN-LAST:event_formMouseClicked
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jTextFieldPotenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldPotenciaActionPerformed
@@ -386,8 +418,44 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButtonPermitidaCirculacaoSimActionPerformed
 
     private void jButtonCancelarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCancelarMousePressed
-        dispose();
+        
     }//GEN-LAST:event_jButtonCancelarMousePressed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        Carro meuCarro = new Carro();
+        meuCarro.setNome(jTextFieldNome.getText());
+        meuCarro.setCor(jTextFieldCor.getText());
+        meuCarro.setPotencia(Float.parseFloat(jTextFieldPotencia.getText()));
+        meuCarro.setPlaca(jTextFieldPlaca.getText());
+        meuCarro.setChassi(jTextFieldChassi.getText());
+        meuCarro.setQuilometragem(Float.parseFloat(jTextFieldQuilometragem.getText()));
+        meuCarro.setRenavam(Integer.parseInt(jTextFieldRenavam.getText()));
+        meuCarro.setAnoLancamento(Short.parseShort(jSpinnerAnoLancamento.getValue().toString()));
+        meuCarro.setAnoFabricacao(Short.parseShort(jSpinnerAnoFabricacao.getValue().toString()));
+        meuCarro.setFabricante(jTextFieldFabricante.getText());
+        String dataCompra = jFormattedTextFieldDataCompra.getText();
+        int ano = Integer.parseInt(dataCompra.substring(6, 10));
+        int mes = Integer.parseInt(dataCompra.substring(3, 5));
+        int dia = Integer.parseInt(dataCompra.substring(0, 2));
+        meuCarro.setDataCompra(new Date(ano, mes, dia));
+        meuCarro.setQuantidadePortas(Byte.parseByte(jComboBoxQuantidadePortas.getSelectedItem().toString()));
+        meuCarro.setQuantidadeBatidas(Byte.parseByte(jComboBoxQuantidadeBatidas.getSelectedItem().toString()));
+        meuCarro.setEstaFuncional(jRadioButtonEstaFuncionalSim.isSelected());
+        meuCarro.setPermitidaCirculacao(jRadioButtonPermitidaCirculacaoSim.isSelected());
+        meuCarro.setDescricao(jTextAreaDescricao.getText());
+        
+        CarroDAO dao = new CarroDAO();
+        int codigo = dao.inserir(meuCarro);
+        if(codigo != Utilitarios.NAO_FOI_POSSIVEL_INSERIR){
+            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+        }else{
+            JOptionPane.showMessageDialog(null, "Não foi possivel inserir");
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jTextFieldCorAncestorMoved(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jTextFieldCorAncestorMoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldCorAncestorMoved
 
     /**
      * @param args the command line arguments
@@ -429,11 +497,10 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBoxQuantidadeBatidas;
     private javax.swing.JComboBox jComboBoxQuantidadePortas;
     private javax.swing.JComboBox jComboBoxTipoPneu;
     private javax.swing.JFormattedTextField jFormattedTextFieldDataCompra;
-    private javax.swing.JFormattedTextField jFormattedTextFieldPlaca;
     private javax.swing.JLabel jLabelAnoFabricacao;
     private javax.swing.JLabel jLabelAnoLancamento;
     private javax.swing.JLabel jLabelChassi;
@@ -457,12 +524,15 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButtonPermitidaCirculacaoNao;
     private javax.swing.JRadioButton jRadioButtonPermitidaCirculacaoSim;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JSpinner jSpinnerAnoFabricacao;
+    private javax.swing.JSpinner jSpinnerAnoLancamento;
+    private javax.swing.JTextArea jTextAreaDescricao;
     private javax.swing.JTextField jTextFieldChassi;
     private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldCor;
     private javax.swing.JTextField jTextFieldFabricante;
     private javax.swing.JTextField jTextFieldNome;
+    private javax.swing.JTextField jTextFieldPlaca;
     private javax.swing.JTextField jTextFieldPotencia;
     private javax.swing.JTextField jTextFieldQuilometragem;
     private javax.swing.JTextField jTextFieldRenavam;
