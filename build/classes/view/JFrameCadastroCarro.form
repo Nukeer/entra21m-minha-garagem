@@ -52,7 +52,7 @@
                           <Group type="102" attributes="0">
                               <Component id="jLabelCodigo" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextFieldCodigo" min="-2" pref="24" max="-2" attributes="0"/>
+                              <Component id="jLabelCod" min="-2" pref="105" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabelNome" min="-2" max="-2" attributes="0"/>
@@ -177,15 +177,10 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="jTextFieldCodigo" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabelCodigo" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabelCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabelCod" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -249,7 +244,7 @@
                   </Group>
                   <Component id="jScrollPane1" min="-2" pref="207" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="10" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -300,14 +295,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="jTextFieldFabricante">
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTextFieldCodigo">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
-      <AccessibilityProperties>
-        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
-      </AccessibilityProperties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelPlaca">
       <Properties>
@@ -519,6 +506,8 @@
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="ABC-1234"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabelCod">
     </Component>
   </SubComponents>
 </Form>

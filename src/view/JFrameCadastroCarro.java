@@ -45,7 +45,6 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         jButtonCancelar = new javax.swing.JButton();
         jLabelFabricante = new javax.swing.JLabel();
         jTextFieldFabricante = new javax.swing.JTextField();
-        jTextFieldCodigo = new javax.swing.JTextField();
         jLabelPlaca = new javax.swing.JLabel();
         jLabelChassi = new javax.swing.JLabel();
         jLabelPotencia = new javax.swing.JLabel();
@@ -77,6 +76,7 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         jSpinnerAnoFabricacao = new javax.swing.JSpinner();
         jSpinnerAnoLancamento = new javax.swing.JSpinner();
         jTextFieldPlaca = new javax.swing.JTextField();
+        jLabelCod = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Carros");
@@ -122,8 +122,6 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         });
 
         jLabelFabricante.setText("Fabricante");
-
-        jTextFieldCodigo.setEditable(false);
 
         jLabelPlaca.setText("Placa");
 
@@ -230,7 +228,7 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelCodigo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabelCod, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelNome)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -324,13 +322,10 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabelCodigo)))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCodigo)
+                    .addComponent(jLabelCod, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNome)
@@ -385,10 +380,8 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
                         .addComponent(jButtonCancelar)
                         .addComponent(jButtonSalvar))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
-        jTextFieldCodigo.getAccessibleContext().setAccessibleName("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -445,11 +438,23 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         meuCarro.setDescricao(jTextAreaDescricao.getText());
         
         CarroDAO dao = new CarroDAO();
-        int codigo = dao.inserir(meuCarro);
-        if(codigo != Utilitarios.NAO_FOI_POSSIVEL_INSERIR){
-            JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+        if(!jLabelCod.getText().equals("")){
+            meuCarro.setId(Integer.parseInt(jLabelCod.getText()));
+            int codigo = dao.inserir(meuCarro);
+            if(codigo != Utilitarios.NAO_FOI_POSSIVEL_INSERIR){
+                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+                jLabelCod.setText(String.valueOf(codigo));
+            }else{
+                JOptionPane.showMessageDialog(null, "Não foi possivel inserir");
+            }
         }else{
-            JOptionPane.showMessageDialog(null, "Não foi possivel inserir");
+            int codigo = dao.inserir(meuCarro);
+            if(codigo != Utilitarios.NAO_FOI_POSSIVEL_INSERIR){
+                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso");
+                jLabelCod.setText(String.valueOf(codigo));
+            }else{
+                JOptionPane.showMessageDialog(null, "Não foi possivel inserir");
+            }
         }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -504,6 +509,7 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelAnoFabricacao;
     private javax.swing.JLabel jLabelAnoLancamento;
     private javax.swing.JLabel jLabelChassi;
+    private javax.swing.JLabel jLabelCod;
     private javax.swing.JLabel jLabelCodigo;
     private javax.swing.JLabel jLabelCor;
     private javax.swing.JLabel jLabelDataCompra;
@@ -528,7 +534,6 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinnerAnoLancamento;
     private javax.swing.JTextArea jTextAreaDescricao;
     private javax.swing.JTextField jTextFieldChassi;
-    private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldCor;
     private javax.swing.JTextField jTextFieldFabricante;
     private javax.swing.JTextField jTextFieldNome;
