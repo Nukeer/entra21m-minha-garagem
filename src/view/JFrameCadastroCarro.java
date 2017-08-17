@@ -77,6 +77,7 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         jSpinnerAnoLancamento = new javax.swing.JSpinner();
         jTextFieldPlaca = new javax.swing.JTextField();
         jLabelCod = new javax.swing.JLabel();
+        jButtonExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Carros");
@@ -210,6 +211,13 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
 
         jTextFieldPlaca.setToolTipText("ABC-1234");
 
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -219,6 +227,8 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonExcluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonCancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -316,7 +326,7 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
                                     .addComponent(jRadioButtonEstaFuncionalNao)
                                     .addGap(50, 50, 50)))
                             .addComponent(jLabelDescricao))
-                        .addGap(0, 21, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -378,12 +388,14 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonCancelar)
-                        .addComponent(jButtonSalvar))
+                        .addComponent(jButtonSalvar)
+                        .addComponent(jButtonExcluir))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -462,6 +474,21 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldCorAncestorMoved
 
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        if(jLabelCod.getText().equals("")){
+            JOptionPane.showMessageDialog(null, "Não foi cadastrado nenhum carro ainda");
+        }else{
+            int codigo = Integer.parseInt(jLabelCod.getText());
+            CarroDAO dao = new CarroDAO();
+            if(dao.excluir(codigo) == Utilitarios.NAO_FOI_POSSIVEL_EXCLUIR){
+                JOptionPane.showMessageDialog(null, "Não foi possivel excluir");
+            }else{
+                JOptionPane.showMessageDialog(null, "Exclusão realizada com suceso");
+                dispose();
+            }
+        }
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -501,6 +528,7 @@ public class JFrameCadastroCarro extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxQuantidadeBatidas;
     private javax.swing.JComboBox jComboBoxQuantidadePortas;
